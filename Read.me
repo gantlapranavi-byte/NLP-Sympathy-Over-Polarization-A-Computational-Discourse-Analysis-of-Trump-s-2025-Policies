@@ -1,0 +1,131 @@
+# 🗣️ Sympathy Over Polarization
+### A Computational Discourse Analysis of Trump's 2025 Policies
+
+> When political discourse gets loud, what are people actually feeling?
+> This project goes beyond left vs. right to uncover the emotions, topics, and nuanced sentiments hidden inside Reddit comments about four of Trump's most controversial 2025 policies.
+
+---
+
+## 📌 Overview
+
+This is an NLP research project that applies topic modeling, emotion detection, sentiment analysis, and **aspect-based sentiment analysis (ABSA)** to Reddit comment data scraped between **January–March 2025** — right after the policy announcements.
+
+The central question: *Is online political discourse really as polarized as we think, or does sympathy and nuance exist beneath the surface?*
+
+Four policy topics are analyzed:
+
+| Policy | Reddit Comments |
+|---|---|
+| 🏛️ Birthright Citizenship | 4,892 |
+| 🚔 ICE Raids & Immigration Enforcement | 8,120 |
+| 🏳️‍🌈 LGBTQ+ Rights | 4,931 |
+| 📦 Tariffs & Trade Policy | 37,805 |
+| Total | 55,748 comments |
+
+---
+
+## 🔬 Methodology
+
+### 1. Data Collection — Web Scraping
+- Reddit comments scraped using the PRAW (Python Reddit API Wrapper)
+- Targeted posts from January 21 – March 18, 2025 (post-inauguration window)
+- Data stored as CSVs with: `URL`, `Author`, `Comment`, `Created_UTC`
+
+### 2. Data Preprocessing
+- Lowercasing, URL/hashtag/mention removal
+- Emoji stripping
+- Tokenization via `NLTK`
+- Stopword removal + punctuation/number cleaning
+
+### 3. Topic Modeling — BERTopic
+- BERTopic applied per policy topic to discover emergent discussion themes
+- Coherence score analysis (K=2 to 20) to find the optimal number of topics
+- Visualizations: bar charts, topic hierarchy dendrograms
+
+### 4. Sentiment Analysis — RoBERTa
+- `cardiffnlp/twitter-roberta-base-sentiment` for 3-class sentiment (positive / neutral / negative)
+- Applied to all 55K+ comments
+
+### 5. Emotion Detection
+- Emotion classification across comments (joy, anger, fear, sadness, surprise, disgust)
+- Bar plots and pie charts for emotion distribution per topic
+
+### 6. Aspect-Based Sentiment Analysis (ABSA)
+- Model: `yangheng/deberta-v3-base-absa-v1.1`
+- Fixed aspects analyzed: `immigration`, `citizenship`, `ICE`, `LGBTQ`, `tariffs`, `government`, `rights`
+- Per-aspect sentiment breakdown: positive / neutral / negative
+
+---
+
+## 📁 Project Structure
+
+```
+📦 sympathy-over-polarization
+ ┣ 📓 5082_project_citizenship.ipynb     # Citizenship policy analysis
+ ┣ 📓 5082_project_ICE.ipynb             # ICE raids analysis
+ ┣ 📓 5082_project_LGBTQ.ipynb           # LGBTQ rights analysis
+ ┣ 📓 5082_project_Tarrifs.ipynb         # Tariffs & trade analysis
+ ┣ 📓 Web_Scrapping.ipynb                # Reddit data collection
+ ┣ 📄 reddit_comments_citizenship.csv
+ ┣ 📄 reddit_comments_ICE.csv
+ ┣ 📄 reddit_comments_LGBTQ.csv
+ ┣ 📄 reddit_comments_TARRIFS.csv
+ ┗ 📄 README.md
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Tool | Purpose |
+|---|---|
+| `PRAW` | Reddit API scraping |
+| `NLTK` | Text preprocessing & tokenization |
+| `BERTopic` | Unsupervised topic modeling |
+| `Gensim` | Coherence score evaluation |
+| `Transformers (HuggingFace)` | RoBERTa sentiment + DeBERTa ABSA |
+| `PyTorch` | Model inference |
+| `pandas` / `numpy` | Data manipulation |
+| `seaborn` / `matplotlib` | Visualizations |
+
+---
+
+## 🚀 Getting Started
+
+### Install Dependencies
+```bash
+pip install praw pandas numpy nltk bertopic gensim transformers torch seaborn matplotlib emoji pyabsa
+```
+
+### Run the Notebooks
+Open each notebook in **Google Colab** or **Jupyter** and run in order:
+
+1. `Web_Scrapping.ipynb` — collect data (requires Reddit API credentials)
+2. `5082_project_citizenship.ipynb`
+3. `5082_project_ICE.ipynb`
+4. `5082_project_LGBTQ.ipynb`
+5. `5082_project_Tarrifs.ipynb`
+
+> Note: CSV files are included so you can skip scraping and go straight to analysis.
+
+---
+
+## 💡 Key Insights
+
+- Despite highly charged political topics, a significant portion of comments showed neutral or empathetic tones rather than pure hostility
+- Tariffs generated the highest volume of discussion (37K+ comments) with more economic anxiety than partisan anger
+- LGBTQ and Citizenship topics surfaced stronger emotional responses, particularly fear and sadness
+- ABSA revealed that sentiments varied significantly by aspect — the same user could be negative about "ICE" but neutral about "government"
+
+---
+
+## 👩‍💻 Author
+
+Pranavi Gantla — ML Engineer & MS Data Science, University of North Texas
+[LinkedIn](https://www.linkedin.com/in/pranavi-942474361/) · gantlapranavi@gmail.com
+
+---
+
+## ⚠️ Disclaimer
+
+This project is purely academic. All Reddit data was collected from public posts in compliance with Reddit's API terms of service. No personal identification of users was performed or intended.
